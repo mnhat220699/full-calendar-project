@@ -9,6 +9,8 @@ import { CalendarHeader } from './CanlendarHeader';
 import { data as dataFetch } from '../data';
 
 export function Calendar() {
+  const { innerWidth } = window;
+  console.log(innerWidth);
   const [data, setData] = useState([]);
   const [duration, setDuration] = useState({
     week: 1,
@@ -119,7 +121,9 @@ export function Calendar() {
         <CalendarHeader calendarRef={calendarRef} setDuration={setDuration} />
         <FullCalendar
           eventDragStop={(info) => {
-            if (info.jsEvent.offsetX > 1150) {
+            // subtract 180 because 180 is width of event dragging
+            const curentWidth = innerWidth - 180;
+            if (info.jsEvent.offsetX > curentWidth) {
               const item = data.filter((ev) => {
                 if (ev.event.id !== info.event._def.publicId) {
                   return ev;
@@ -131,6 +135,7 @@ export function Calendar() {
               ]);
               setData(item);
             }
+            return;
           }}
           eventReceive={eventSetTimeToDragAndDrop}
           ref={calendarRef}
