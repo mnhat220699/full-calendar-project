@@ -69,14 +69,17 @@ export function Datepicker({ dateSelected, setDate, agendaData }) {
     if (objDate.week) {
       const subtractDay = endOfWeek(dateSelected) - startOfWeek(dateSelected);
       let dayNumber = Math.floor(subtractDay / MILLISECONDS_DAY);
-      dayNumber = dayNumber * objDate.week;
+      dayNumber = objDate.week > 1 ? (dayNumber + 1) * objDate.week : dayNumber;
+
       for (let i = 1; i < dayNumber; i++) {
         listDay.push(addDays(startOfWeek(dateSelected), i));
       }
       listHighlighWithRanges.push({
         'highlight-start-end-of-week-custom': [
           startOfWeek(dateSelected),
-          endOfWeek(dateSelected),
+          objDate.week > 1
+            ? listDay[listDay.length - 1]
+            : endOfWeek(dateSelected),
         ],
       });
     } else if (objDate.month) {

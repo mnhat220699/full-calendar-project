@@ -6,6 +6,8 @@ import { addHours, format, subHours } from 'date-fns';
 import { createRef, useEffect, useState } from 'react';
 import { CalendarHeader } from './CanlendarHeader';
 
+import { data as dataFetch } from '../data';
+
 export function Calendar() {
   const [data, setData] = useState([]);
   const [duration, setDuration] = useState({
@@ -49,16 +51,6 @@ export function Calendar() {
     },
   ]);
 
-  console.log(data.length);
-  // id: item.event.id,
-  //           title: item.tile.header,
-  //           date: format(new Date(item.date_label).getTime(), 'yyyy-MM-dd'),
-  //           start: item.event.start,
-  //           end: item.event.end,
-  //           textColor: item.color.text,
-  //           borderColor: item.color.border,
-  //           backgroundColor: item.color.background,
-
   useEffect(() => {
     let draggableEl = document.getElementById('draggable-events');
     new Draggable(draggableEl, {
@@ -66,14 +58,13 @@ export function Calendar() {
       eventData: function (eventEl) {
         let id = eventEl.getAttribute('data');
         let title = eventEl.getAttribute('title');
-        console.log(id, title);
         setData((prevList) => [
           ...prevList,
           {
             event: {
               id,
-              start: '2023-06-18T12:45:00+00:00',
-              end: '2023-06-18T14:45:00+00:00',
+              start: new Date(),
+              end: addHours(new Date(), 1),
             },
             tile: { header: title },
             date_label: new Date(),
@@ -99,9 +90,9 @@ export function Calendar() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch('http://localhost:3002/data');
-        const data = await res.json();
-        setData(data);
+        // const res = await fetch('http://localhost:3002/data');
+        // const data = await res.json();
+        setData(dataFetch);
       } catch (error) {
         console.log(error);
       }

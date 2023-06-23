@@ -100,7 +100,7 @@ button {
 .react-datepicker-popper.custom-popper {
     z-index: 14;
 }
-
+.react-datepicker__day.highlight-ranges-custom.highlight-start-end-of-week-custom,
 .react-datepicker__day.highlight-start-end-of-week-custom {
     margin: 0;
     padding: 3px;
