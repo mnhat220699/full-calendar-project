@@ -13,7 +13,7 @@ export function Calendar() {
   const [duration, setDuration] = useState({
     week: 1,
   });
-  const [listJob] = useState([
+  const [listJob, setListJob] = useState([
     {
       title: 'Item 1',
       id: '1asdqwe',
@@ -56,6 +56,7 @@ export function Calendar() {
     new Draggable(draggableEl, {
       itemSelector: '.job-event',
       eventData: function (eventEl) {
+        console.log('event data');
         let id = eventEl.getAttribute('data');
         let title = eventEl.getAttribute('title');
         setData((prevList) => [
@@ -99,28 +100,45 @@ export function Calendar() {
     })();
   }, []);
 
+  const eventSetTimeToDragAndDrop = (info) => {
+    const item = data.map((ev) => {
+      if (ev.event.id === info.event._def.publicId) {
+        ev.color.background = '#347deb';
+        ev.color.text = '#fff';
+        ev.event.start = subHours(info.event._instance.range.start, 7);
+        ev.event.end = subHours(info.event._instance.range.end, 7);
+      }
+      return ev;
+    });
+    setData(item);
+  };
+
   return (
     <div className="section">
       <div className="left-calendar">
         <CalendarHeader calendarRef={calendarRef} setDuration={setDuration} />
         <FullCalendar
+          eventDragStop={(info) => {
+            if (info.jsEvent.offsetX > 1150) {
+              const item = data.filter((ev) => {
+                if (ev.event.id !== info.event._def.publicId) {
+                  return ev;
+                }
+              });
+              setListJob([
+                ...listJob,
+                { title: info.event._def.title, id: info.event._def.publicId },
+              ]);
+              setData(item);
+            }
+          }}
+          eventReceive={eventSetTimeToDragAndDrop}
           ref={calendarRef}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           droppable={true}
           initialView="timeGrid"
           editable={true}
-          eventDrop={(info) => {
-            const item = data.map((ev) => {
-              if (ev.event.id === info.event._def.publicId) {
-                ev.color.background = '#347deb';
-                ev.color.text = '#fff';
-                ev.event.start = subHours(info.event._instance.range.start, 7);
-                ev.event.end = subHours(info.event._instance.range.end, 7);
-              }
-              return ev;
-            });
-            setData(item);
-          }}
+          eventDrop={eventSetTimeToDragAndDrop}
           headerToolbar={false}
           events={data.map((item) => ({
             id: item.event.id,
