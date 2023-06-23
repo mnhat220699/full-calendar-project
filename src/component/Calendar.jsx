@@ -10,7 +10,6 @@ import { data as dataFetch } from '../data';
 
 export function Calendar() {
   const { innerWidth } = window;
-  console.log(innerWidth);
   const [data, setData] = useState([]);
   const [duration, setDuration] = useState({
     week: 1,
@@ -58,7 +57,6 @@ export function Calendar() {
     new Draggable(draggableEl, {
       itemSelector: '.job-event',
       eventData: function (eventEl) {
-        console.log('event data');
         let id = eventEl.getAttribute('data');
         let title = eventEl.getAttribute('title');
         setData((prevList) => [
