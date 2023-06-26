@@ -11,7 +11,6 @@ import { data as dataFetch } from '../data';
 export function Calendar() {
   const { innerWidth } = window;
   const [data, setData] = useState([]);
-  const [, setInitialView] = useState('timeGrid');
   const [duration, setDuration] = useState({
     week: 1,
   });
@@ -143,7 +142,7 @@ export function Calendar() {
         <CalendarHeader
           calendarRef={calendarRef}
           setDuration={setDuration}
-          setInitialView={setInitialView}
+          setInitialView="timeGrid"
         />
         <FullCalendar
           eventDragStop={(info) => {

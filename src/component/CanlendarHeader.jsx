@@ -5,7 +5,7 @@ import { Datepicker } from './Datepicker';
 const TIME_GIRD = 'timeGrid';
 const DAY_GRID_MONTH = 'dayGridMonth';
 
-export function CalendarHeader({ calendarRef, setDuration, setInitialView }) {
+export function CalendarHeader({ calendarRef, setDuration }) {
   const [date, setDate] = useState();
   const [apiCalendar, setApiCalendar] = useState(calendarRef.current?.getApi());
   const [agendaValue, setAgendaValue] = useState('Week');
@@ -74,55 +74,55 @@ export function CalendarHeader({ calendarRef, setDuration, setInitialView }) {
     setAgendaValue(e.target.innerText);
     switch (e.target.innerText) {
       case 'Day':
-        setInitialView(TIME_GIRD);
+        apiCalendar.changeView(TIME_GIRD);
         setDuration({
           day: 1,
         });
         break;
       case 'Week':
-        setInitialView(TIME_GIRD);
+        apiCalendar.changeView(TIME_GIRD);
         setDuration({
           week: 1,
         });
         break;
       case '2 Weeks':
-        setInitialView(TIME_GIRD);
+        apiCalendar.changeView(TIME_GIRD);
         setDuration({
           weeks: 2,
         });
         break;
       case '3 Weeks':
-        setInitialView(TIME_GIRD);
+        apiCalendar.changeView(TIME_GIRD);
         setDuration({
           weeks: 3,
         });
         break;
       case '4 Weeks':
-        setInitialView(TIME_GIRD);
+        apiCalendar.changeView(TIME_GIRD);
         setDuration({
           weeks: 4,
         });
         break;
       case 'Month':
-        setInitialView(DAY_GRID_MONTH);
+        apiCalendar.changeView(DAY_GRID_MONTH);
         setDuration({
           month: 1,
         });
         break;
       case '3 Days Rolling':
-        setInitialView(TIME_GIRD);
+        apiCalendar.changeView(TIME_GIRD);
         setDuration({
           days: 3,
         });
         break;
       case '4 Days Rolling':
-        setInitialView(TIME_GIRD);
+        apiCalendar.changeView(TIME_GIRD);
         setDuration({
           days: 4,
         });
         break;
       default:
-        setInitialView(TIME_GIRD);
+        apiCalendar.changeView(TIME_GIRD);
         setDuration({
           week: 1,
         });
