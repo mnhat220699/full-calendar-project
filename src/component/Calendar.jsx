@@ -11,6 +11,7 @@ import { data as dataFetch } from '../data';
 export function Calendar() {
   const { innerWidth } = window;
   const [data, setData] = useState([]);
+  const [, setInitialView] = useState('timeGrid');
   const [duration, setDuration] = useState({
     week: 1,
   });
@@ -116,7 +117,11 @@ export function Calendar() {
   return (
     <div className="section">
       <div className="left-calendar">
-        <CalendarHeader calendarRef={calendarRef} setDuration={setDuration} />
+        <CalendarHeader
+          calendarRef={calendarRef}
+          setDuration={setDuration}
+          setInitialView={setInitialView}
+        />
         <FullCalendar
           eventDragStop={(info) => {
             // subtract 180 because 180 is width of event dragging
@@ -135,6 +140,7 @@ export function Calendar() {
             }
             return;
           }}
+          eventResize={eventSetTimeToDragAndDrop}
           eventReceive={eventSetTimeToDragAndDrop}
           ref={calendarRef}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
