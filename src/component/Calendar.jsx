@@ -17,6 +17,9 @@ export function Calendar() {
   });
   const [listJob, setListJob] = useState([
     {
+      event: {
+        id: '1asdqwe',
+      },
       title: 'Item 1',
       id: '1asdqwe',
       date: new Date(),
@@ -24,6 +27,9 @@ export function Calendar() {
       end: addHours(new Date(), 1),
     },
     {
+      event: {
+        id: '2asdqwe',
+      },
       title: 'Item 2',
       id: '2asdqwe',
       date: new Date(),
@@ -31,6 +37,9 @@ export function Calendar() {
       end: addHours(new Date(), 1),
     },
     {
+      event: {
+        id: '3asdqwe',
+      },
       title: 'Item 3',
       id: '3asdqwe',
       date: new Date(),
@@ -38,6 +47,9 @@ export function Calendar() {
       end: addHours(new Date(), 1),
     },
     {
+      event: {
+        id: '4asdqwe',
+      },
       title: 'Item 4',
       id: '4asdqwe',
       date: new Date(),
@@ -45,6 +57,9 @@ export function Calendar() {
       end: addHours(new Date(), 1),
     },
     {
+      event: {
+        id: '5asdqwe',
+      },
       title: 'Item 5',
       id: '5asdqwe',
       date: new Date(),
@@ -102,7 +117,7 @@ export function Calendar() {
   }, []);
 
   const eventSetTimeToDragAndDrop = (info) => {
-    const item = data.map((ev) => {
+    const items = data.map((ev) => {
       if (ev.event.id === info.event._def.publicId) {
         ev.color.background = '#347deb';
         ev.color.text = '#fff';
@@ -111,7 +126,15 @@ export function Calendar() {
       }
       return ev;
     });
-    setData(item);
+
+    const jobs = listJob.filter((job) => {
+      if (job.event.id === info.event._def.publicId) {
+        return;
+      }
+      return job;
+    });
+    setListJob(jobs);
+    setData(items);
   };
 
   return (
@@ -134,7 +157,11 @@ export function Calendar() {
               });
               setListJob([
                 ...listJob,
-                { title: info.event._def.title, id: info.event._def.publicId },
+                {
+                  title: info.event._def.title,
+                  id: info.event._def.publicId,
+                  event: { id: info.event._def.publicId },
+                },
               ]);
               setData(item);
             }
